@@ -39,32 +39,33 @@ if __name__ == '__main__':
 
 
 
-
-
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // useEffect hook to simulate fetching data when the component mounts
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/api/user')  // Fetching from Flask API
-            .then(response => response.json())
-            .then(data => {
-                setUser(data.results[0]); // Set user data
-                setLoading(false); // Data is loaded
-            })
-            .catch(error => {
-                console.error("Error fetching user data:", error);
-                setLoading(false); // Even if there's an error, stop loading
-            });
-    }, []);
+        // Simulating a fetch request (using setTimeout to mimic an API call)
+        setTimeout(() => {
+            const fetchedUser = {
+                id: 1,
+                name: { first: 'John', last: 'Doe' },
+                email: 'john.doe@example.com',
+                picture: { medium: 'https://via.placeholder.com/150' }
+            };
 
-    if (loading) return <p>Loading user...</p>;
+            setUser(fetchedUser);  // Update state with fetched data
+            setLoading(false);      // Stop loading once data is fetched
+        }, 2000);  // Simulate a 2-second delay for fetching data
+    }, []);  // Empty dependency array means this effect runs once when the component mounts
+
+    if (loading) return <p>Loading...</p>;
 
     return (
         <div>
-            <h1>User Information</h1>
+            <h1>User Info</h1>
             {user && (
                 <div>
                     <p><strong>Name:</strong> {user.name.first} {user.name.last}</p>
@@ -74,6 +75,7 @@ const App = () => {
             )}
         </div>
     );
-};
+}
 
 export default App;
+
