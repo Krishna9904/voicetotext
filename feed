@@ -116,6 +116,44 @@ app.listen(3001, () => {
 });
 
 
+const redis = require("redis");
+
+// Initialize Redis client
+const client = redis.createClient({
+    database: 5, // Select database number 5
+});
+
+client.on("error", (err) => {
+    console.error("Redis Client Error:", err);
+});
+
+(async () => {
+    try {
+        // Connect to Redis
+        await client.connect();
+        console.log("Connected to Redis on database 5");
+
+        // Add data to Redis
+        const key = "exampleKey";
+        const value = "exampleValue";
+
+        await client.set(key, value);
+        console.log(`Data added: { "${key}": "${value}" }`);
+
+        // Retrieve data from Redis
+        const retrievedValue = await client.get(key);
+        console.log(`Data retrieved: { "${key}": "${retrievedValue}" }`);
+
+        // Close Redis connection
+        await client.quit();
+        console.log("Redis connection closed");
+    } catch (err) {
+        console.error("Error during Redis operation:", err);
+    }
+})();
+
+
+
 
 
 
