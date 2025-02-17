@@ -166,3 +166,119 @@ export default function DynamicTemplate() {
   );
 }
 
+
+
+import React, { useState } from "react";
+
+const data = {
+  react: {
+    description:
+      "React is a JavaScript library for building user interfaces. It allows developers to create reusable UI components. React uses a virtual DOM to improve performance and supports hooks for state and lifecycle management.",
+    video: "https://www.youtube.com/watch?v=w7ejDZ8SWv8",
+    documentation: "https://react.dev/",
+    creator: "Facebook (Meta)",
+  },
+  javascript: {
+    description:
+      "JavaScript is a versatile programming language primarily used for web development. It enables interactive web pages, supports asynchronous programming, and is widely used in frontend and backend development.",
+    video: "https://www.youtube.com/watch?v=upDLs1sn7g4",
+    documentation: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    creator: "Brendan Eich",
+  },
+  html: {
+    description:
+      "HTML stands for HyperText Markup Language. It is the standard language for creating web pages and web applications. It provides the basic structure of a webpage, which can be enhanced with CSS and JavaScript.",
+    video: "https://www.youtube.com/watch?v=pQN-pnXPaVg",
+    documentation: "https://developer.mozilla.org/en-US/docs/Web/HTML",
+    creator: "Tim Berners-Lee",
+  },
+  css: {
+    description:
+      "CSS, or Cascading Style Sheets, is used for styling HTML elements and improving the visual presentation of web pages. It supports features like animations, transitions, and responsive design.",
+    video: "https://www.youtube.com/watch?v=1PnVor36_40",
+    documentation: "https://developer.mozilla.org/en-US/docs/Web/CSS",
+    creator: "Håkon Wium Lie",
+  },
+};
+
+export default function DynamicTemplate() {
+  const [searchText, setSearchText] = useState("");
+
+  // Extract keywords from input text
+  const extractKeywords = (text) => {
+    const words = text.toLowerCase().match(/\b\w+\b/g) || []; // Split input into words
+    return Object.keys(data).filter((key) => words.includes(key)); // Match with defined keys
+  };
+
+  const matchedKeys = extractKeywords(searchText); // Get matched keys
+
+  return (
+    <div style={{ padding: "20px", maxWidth: "500px", margin: "auto" }}>
+      <textarea
+        placeholder="Ask a question..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "8px",
+          marginBottom: "10px",
+          height: "120px",
+          fontSize: "16px",
+          boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+          borderRadius: "5px",
+        }}
+      />
+      {matchedKeys.length > 0 ? (
+        matchedKeys.map((key) => (
+          <div
+            key={key}
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              borderRadius: "5px",
+              marginBottom: "10px",
+            }}
+          >
+            <h2 style={{ fontSize: "18px", fontWeight: "bold" }}>
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </h2>
+            <p style={{ marginTop: "5px", color: "#555" }}>
+              {data[key].description}
+            </p>
+            <p>
+              <strong>Creator:</strong> {data[key].creator}
+            </p>
+            <a
+              href={data[key].documentation}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "green",
+                textDecoration: "underline",
+                display: "block",
+                marginBottom: "5px",
+              }}
+            >
+              Read Documentation
+            </a>
+            <a
+              href={data[key].video}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "blue", textDecoration: "underline" }}
+            >
+              Watch Video
+            </a>
+          </div>
+        ))
+      ) : (
+        <p style={{ color: "red", fontWeight: "bold" }}>
+          No related topics found. Try asking about React, JavaScript, HTML, or
+          CSS.
+        </p>
+      )}
+    </div>
+  );
+}
+
+
