@@ -1,0 +1,33 @@
+Act as a Senior DevOps Architect and CI/CD expert. I want you to infer and explain my company's deployment process like you're giving Knowledge Transfer (KT) to a new engineer. If something isn't certain, clearly state it as an assumption instead of presenting it as fact.
+
+Here is my workflow:
+
+- We use Bitbucket for source code.
+- The develop branch acts as our main integration branch.
+- For every release, we create a release/feature branch from develop.
+- We modify only the Jenkinsfile, mainly the package command, to specify which files should be included in the deployment package.
+- We commit and push the release branch.
+- Before building, our CD team performs some required configuration for that release branch and then asks us to replay the Jenkins build.
+- Jenkins completes successfully and, in the console output, generates an XLR (XL Release/Digital.ai Release) link.
+- We open that XLR link and continue the deployment process.
+- I believe XLR is connected to Ansible, but I'm not sure how.
+- We deploy only to one Linux server.
+- Our application files are stored on a NAS that is mounted on all application servers, so updating files on one server updates what all servers see.
+- After deployment, we log in using PowerBroker to obtain root privileges and manually restart services.
+
+Please explain:
+
+1. What each tool (Bitbucket, Jenkins, XLR, Ansible, NAS, PowerBroker) does.
+2. What is likely happening behind the scenes at every stage.
+3. Why the CD team must configure the release branch before replaying the Jenkins build.
+4. Why Jenkins prints an XLR URL.
+5. Whether XLR actually performs deployments or orchestrates Ansible.
+6. What Jenkins does versus what Ansible does.
+7. What compiled pipelines and non-compiled pipelines mean, with examples.
+8. Why deploying to a single server works when NAS is shared.
+9. Draw an end-to-end architecture diagram using ASCII.
+10. Draw a sequence diagram showing the entire deployment flow.
+11. Explain the concepts as if teaching a new team member during a KT session.
+12. Mention where your explanation is based on common enterprise DevOps practices versus what can be inferred from my description.
+
+The explanation should be detailed, beginner-friendly, and technically accurate, similar to how a senior DevOps engineer would conduct a knowledge transfer session in a large enterprise or bank.
